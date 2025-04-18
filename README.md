@@ -2,7 +2,7 @@
 
 The code is quite friendly with spaces, except for the - before paranthese (- must be right before the '(').
 
-Accepted operators: +, -, /, *, **. (** is for exponents)
+Accepted operators: +, -, /, *, ** (** is for exponents)
 
 Parentheses supported
 
