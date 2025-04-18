@@ -1,12 +1,6 @@
 function stringToInt(message) {
     message = message.trim();
 
-    if (message == '') {
-        return { valid: true, value: 10000 };
-    }
-
-    //10+(10+10) [10, + [10 + 10]]
-
     var result = stringToArray(message);
 
     if (!result.valid) {
@@ -22,6 +16,7 @@ function stringToInt(message) {
 
 }
 
+//Transforms the string to an array. Ex: '10 + 10' = ['10', '+', '10'];
 function stringToArray(string) {
     const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
     const operators = ['*', '+', '-', '/'];
@@ -154,9 +149,10 @@ function stringToArray(string) {
 }
 function resolveArray(array) {
 
-    const tempArray = array.slice(); //Créé une copie pour éviter les problèmes de références
+    const tempArray = array.slice(); //Creates a copy to not have reference problems
     const PEMDAS = [['**'], ['*', '/'], ['+', '-']];
 
+    //Resolve arrays (parentheses) first
     for (let i = 0; i < tempArray.length; i++) {
         if (Array.isArray(tempArray[i])) {
             let result = resolveArray(tempArray[i]);
@@ -168,6 +164,7 @@ function resolveArray(array) {
         }
     }
 
+    //Resolve exponents from right to left
     for (let j = tempArray.length - 2; j > 0; j -= 0) {
         try {
             if (tempArray[j] == '**') {
@@ -184,6 +181,7 @@ function resolveArray(array) {
         }
     }
 
+    //Resolve basic operators in order (order given by PEMDAS)
     for (let i = 1; i < PEMDAS.length; i++) {
         for (let j = 1; j < tempArray.length; j += 0) {
             if (PEMDAS[i].includes(tempArray[j])) {
@@ -283,7 +281,7 @@ function unitaryTests() {
 }
 
 function simpleTest(message) {
-    const result = Int(message);
+    const result = stringToInt(message);
     if (result.valid) {
         console.log(`Operation success! Result ${result.value}`);
     } else {
